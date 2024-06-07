@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <style>
+        /* Existing styles */
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <img src="/image/1717249812393.png" alt="Logo" class="logo">
+        <h1 class="text-center">Bonjour!</h1>
+        <p class="text-center"><a href="/auth/logout">Logout</a></p>
+        
+        <div class="text-center">
+            <p>Leave Balance: <span id="leaveBalance"></span></p>
+        </div>
+
+        <div class="text-center">
+            <p>Upcoming Leaves:</p>
+            <ul id="upcomingLeaves">
+                <!-- Upcoming leaves will be populated here -->
+            </ul>
+        </div>
+
+        <div class="text-center">
+            <p>Leave Reminders:</p>
+            <ul id="leaveReminders">
+                <!-- Leave reminders will be populated here -->
+            </ul>
+        </div>
+
+        <!-- Enquiry Section -->
+        <div id="enquiryModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Submit Enquiry</h2>
+                <form id="enquiryForm" action="/enquiry" method="POST">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <br>
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required></textarea>
+                    <br>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add a button to open the enquiry modal -->
+        <button id="openEnquiryModal" class="btn btn-primary">Submit Enquiry</button>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="text-center">
+        <form action="/auth/logout" method="POST">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
+
+    <!-- Your JavaScript Code -->
+    <script>
+        // Example data
+        const leaveBalance = "10 days";
+        const upcomingLeaves = ["Leave 1: June 10, 2023", "Leave 2: July 5, 2023"];
+        const leaveReminders = ["Reminder 1: Submit leave request for June", "Reminder 2: Check remaining leave balance"];
+
+        // Populate the leave balance
+        document.getElementById('leaveBalance').textContent = leaveBalance;
+
+        // Populate the upcoming leaves
+        const upcomingLeavesList = document.getElementById('upcomingLeaves');
+        upcomingLeaves.forEach(leave => {
+            const li = document.createElement('li');
+            li.textContent = leave;
+            upcomingLeavesList.appendChild(li);
+        });
+
+        // Populate the leave reminders
+        const leaveRemindersList = document.getElementById('leaveReminders');
+        leaveReminders.forEach(reminder => {
+            const li = document.createElement('li');
+            li.textContent = reminder;
+            leaveRemindersList.appendChild(li);
+        });
+
+        // Get the modal and button elements
+        const modal = document.getElementById('enquiryModal');
+        const btn = document.getElementById('openEnquiryModal');
+        const span = document.getElementsByClassName('close')[0];
+      
+        // Function to open the modal
+        btn.onclick = function () {
+          modal.style.display = 'block';
+        };
+      
+        // Function to close the modal
+        span.onclick = function () {
+          modal.style.display = 'none';
+        };
+      
+        // Close the modal if the user clicks outside the modal
+        window.onclick = function (event) {
+          if (event.target === modal) {
+            modal.style.display = 'none';
+          }
+        };
+    </script>
+</body>
+</html>

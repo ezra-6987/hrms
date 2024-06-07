@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+           font-family: Arial, sans-serif;
+           margin: 0;
+           padding: 0;
+           background-color: #f4f4f4;
+        }
+
+        .container {
+           max-width: 400px;
+           margin: 50px auto;
+           padding: 20px;
+           border: 1px solid #ccc;
+           border-radius: 5px;
+           background-color: #fff;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+           margin-bottom: 20px;
+           text-align: center;
+        }
+
+        label {
+           margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+
+        .button-group {
+          display: flex;
+          justify-content: space-between;
+        }
+
+        button[type="submit"],
+        button[type="button"] {
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        button[type="submit"] {
+          background-color: #28a745;
+          color: #fff;
+        }
+
+        button[type="submit"]:hover {
+          background-color: #218838;
+        }
+
+        button[type="button"] {
+          background-color: #dc3545;
+          color: #fff;
+        }
+
+        button[type="button"]:hover {
+          background-color: #c82333;
+        }
+    </style>   
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form id="registerForm" action="/register" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <button type="submit">Register</button>
+            <button type="button" id="cancelButton">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Prevent default form submission
+            $("#registerForm").submit(function(event) {
+                event.preventDefault();
+                // Get form data
+                var formData = $(this).serialize();
+                // Send AJAX request
+                $.ajax({
+                    url: "/register",
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        // Handle successful registration response
+                        console.log("Registration successful:", response);
+                        // Redirect to the login page
+                        window.location.href = "/login";
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle registration error
+                        console.error("Error:", error);
+                        // Display error message to the user
+                        alert("Failed to register. Please try again.");
+                    }
+                });
+            });
+             // Handle click event of the Cancel button
+             $("#cancelButton").click(function() {
+                window.location.href = "/";
+            });   
+        });
+    </script>
+</body>
+</html>

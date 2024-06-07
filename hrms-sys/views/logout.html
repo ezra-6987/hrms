@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Logout</h1>
+        <p>Are you sure you want to logout?</p>
+        <form id="logoutForm" action="/auth/logout" method="POST">
+            <button type="submit" id="logoutButton">Logout</button>
+        </form>
+    </div>
+
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Prevent default form submission
+            $("#logoutForm").submit(function(event) {
+                event.preventDefault();
+                // Send AJAX request to logout endpoint
+                $.ajax({
+                    url: "/auth/logout",
+                    type: "POST",
+                    success: function(response) {
+                        // Handle successful logout
+                        console.log("Logout successful:", response);
+                        // Redirect to the dashboard page
+                        window.location.href = "/index";
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle logout error
+                        console.error("Error:", error);
+                        // Display error message to the user
+                        alert("Failed to logout. Please try again.");
+                    }
+                });
+            });
+
+            // Optional: Confirm logout before submission
+            $("#logoutButton").click(function() {
+                if (confirm("Are you sure you want to logout?")) {
+                    $("#logoutForm").submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 2em;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            display: inline-block;
+            margin: 1em;
+            padding: 0.5em 2em;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/image/1717249812393.png" alt="Logo" class="logo">
+        <h1>Welcome to the Human Resource Management System</h1>
+        <a href="/login" id="loginLink">Login</a>  <a href="/registration" id="registerLink">Register</a>
+    </div>
+
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Function to handle clicking on the Login link
+            $("#loginLink").click(function(event) {
+                event.preventDefault(); // Prevent default behavior of the link
+                // Send AJAX request to the login page
+                $.ajax({
+                    url: "/login",
+                    type: "GET",
+                    success: function(response) {
+                        // Replace the current page content with the response from the server
+                        $(".container").html(response); // Change container instead of body
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                    }
+                });
+            });
+
+            // Function to handle clicking on the Register link
+            $("#registerLink").click(function(event) {
+                event.preventDefault(); // Prevent default behavior of the link
+                // Send AJAX request to the registration page
+                $.ajax({
+                    url: "/registration",
+                    type: "GET",
+                    success: function(response) {
+                        // Replace the current page content with the response from the server
+                        $(".container").html(response); // Change container instead of body
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
