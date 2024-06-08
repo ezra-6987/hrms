@@ -1,0 +1,48 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project (if needed)
+        run: No build script defined
+        # Replace npm run build with your actual build command if needed
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: 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
+          publish_dir: hrms-sys/public
+          publish_branch: gh-pages
+          allow_empty_commit: false
+          keep_files: false
+          force_orphan: false
+          enable_jekyll: false
+          disable_nojekyll: false
+          exclude_assets: .github
+
+      - name: Post telemetry data on failure
+        if: failure()
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/telemetry" \
+            -F github_run_id="${{ github.run_id }}" \
+            -F conclusion="failure"
+        env:
+          GITHUB_TOKEN: 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
