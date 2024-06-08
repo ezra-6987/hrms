@@ -6,7 +6,7 @@ on:
       - main  # or the branch you want to deploy from
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +29,28 @@ jobs:
         with:
           github_token: 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
           publish_dir: ./public  # Adjust based on your build output directory
+
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt update
+          sudo apt install gh
+
+      - name: Post telemetry data on failure
+        if: failure()
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/telemetry" \
+            -F github_run_id="${{ github.run_id }}" \
+            -F conclusion="failure"
+        env:
+          GITHUB_TOKEN: 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
+
+      - name: Post telemetry data on success
+        if: success()
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/telemetry" \
+            -F github_run_id="${{ github.run_id }}" \
+            -F conclusion="success"
+        env:
+          GITHUB_TOKEN: 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
