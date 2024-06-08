@@ -19,28 +19,24 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: |
-          cd hrms-sys
-          npm install
+        run: npm install
 
-      - name: (Optional) Build project
-        run: |
-          cd hrms-sys
-          npm run build
-        # Only include this step if you have a build process
+      - name: Build project (if needed)
+        run: No build script defined
+        # Replace npm run build with your actual build command if needed
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: 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
-          publish_dir: hrms-sys/public  # Adjust this path based on what you need to deploy
-
-      - name: Install GitHub CLI
-        run: |
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-          sudo apt-add-repository https://cli.github.com/packages
-          sudo apt update
-          sudo apt install gh
+          publish_dir: hrms-sys/public
+          publish_branch: gh-pages
+          allow_empty_commit: false
+          keep_files: false
+          force_orphan: false
+          enable_jekyll: false
+          disable_nojekyll: false
+          exclude_assets: .github
 
       - name: Post telemetry data on failure
         if: failure()
@@ -48,14 +44,5 @@ jobs:
           gh api -X POST "repos/${{ github.repository }}/pages/telemetry" \
             -F github_run_id="${{ github.run_id }}" \
             -F conclusion="failure"
-        env:
-          GITHUB_TOKEN: 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
-
-      - name: Post telemetry data on success
-        if: success()
-        run: |
-          gh api -X POST "repos/${{ github.repository }}/pages/telemetry" \
-            -F github_run_id="${{ github.run_id }}" \
-            -F conclusion="success"
         env:
           GITHUB_TOKEN: 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
