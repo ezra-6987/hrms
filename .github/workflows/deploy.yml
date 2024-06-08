@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,21 +18,22 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Navigate to project directory and install dependencies
+      - name: Install dependencies
         run: |
           cd hrms-sys
           npm install
 
-      - name: Build project
+      - name: (Optional) Build project
         run: |
           cd hrms-sys
           npm run build
+        # Only include this step if you have a build process
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./public/views/  # Adjust based on your build output directory
+          github_token: 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
+          publish_dir: hrms-sys/public  # Adjust this path based on what you need to deploy
 
       - name: Install GitHub CLI
         run: |
