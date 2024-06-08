@@ -21,14 +21,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project (if needed)
-        run: No build script defined
-        # Replace npm run build with your actual build command if needed
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: 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
+          github_token: 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
           publish_dir: hrms-sys/public
           publish_branch: gh-pages
           allow_empty_commit: false
@@ -41,8 +37,8 @@ jobs:
       - name: Post telemetry data on failure
         if: failure()
         run: |
-          gh api -X POST "repos/${{ github.repository }}/pages/telemetry" \
-            -F github_run_id="${{ github.run_id }}" \
+          gh api -X POST "repos/ezra-6987/hrms/pages/telemetry" \
+            -F github_run_id="9430366857" \
             -F conclusion="failure"
         env:
-          GITHUB_TOKEN: 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
+          GITHUB_TOKEN: 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
