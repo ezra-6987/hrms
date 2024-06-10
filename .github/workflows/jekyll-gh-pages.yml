@@ -24,12 +24,12 @@ jobs:
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./hrms-sys/views
-          destination: ./_site
+          destination: https://ezra-6987.github.io/hrms/
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: hrms-artifact
-          path: ./hrms-sys/_site
+          path: ./hrms-sys
 
   deploy:
     environment:
@@ -44,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: hrms-artifact
-          path: ./hrms-sys/_site
+          path: ./hrms-sys
           run-id: 9430366857
           merge-multiple: false
           repository: ezra-6987/hrms
@@ -54,4 +54,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           cleanup: false  # Keep generated files from the build
           target_branch: gh-pages  # Specify the branch for GitHub Pages
-          publish_dir: ./hrms-sys/_site
+          publish_dir: https://ezra-6987.github.io/hrms/
