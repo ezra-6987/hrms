@@ -15,7 +15,7 @@ jobs:
 
       - name: Verify repository structure
         run: ls -la
-        working-directory: ./hrms
+        working-directory: ./hrms-sys
 
       - name: Verify docs directory structure
         run: ls -la
