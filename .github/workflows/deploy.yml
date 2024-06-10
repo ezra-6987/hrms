@@ -15,12 +15,12 @@ jobs:
 
       - name: Verify repository structure
         run: ls -la
-        working-directory: ./hrms-sys
+        working-directory: ${{ github.workspace }}/hrms-sys
 
       - name: Verify docs directory structure
         run: ls -la
-        working-directory: ./hrms-sys
-
+        working-directory: ${{ github.workspace }}/hrms-sys
+        
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -28,22 +28,22 @@ jobs:
 
       - name: Install dependencies
         run: bundle install
-        working-directory: ./hrms-sys
+        working-directory: ${{ github.workspace }}/hrms-sys
 
       - name: Build Jekyll site
-        run: bundle exec jekyll build --source ./hrms-sys --destination ./hrms-sys/_site
-        working-directory: ./hrms-sys
+        run: bundle exec jekyll build --source ${{ github.workspace }}/hrms-sys --destination ${{ github.workspace }}/hrms-sys/_site
+        working-directory: ${{ github.workspace }}/hrms-sys
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./hrms-sys
+          publish_dir: ${{ github.workspace }}/hrms-sys
 
       - name: Post telemetry data on failure
         if: failure()
         run: |
-          gh api -X POST "repos/ezra-6987/hrms/pages/telemetry" \
+          gh api -X POST "repos/ezra-6987/hrms-sys/pages/telemetry" \
             -F github_run_id="${{ 9430366857 }}" \
             -F conclusion="failure"
         env:
