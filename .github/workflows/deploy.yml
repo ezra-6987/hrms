@@ -6,10 +6,8 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
@@ -17,36 +15,36 @@ jobs:
 
       - name: Verify repository structure
         run: ls -la
+        working-directory: ./
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Verify docs directory structure
+        run: ls -la
+        working-directory: ./docs
+
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
         with:
-          node-version: '14'
+          ruby-version: '2.7'
 
       - name: Install dependencies
-        run: npm install
+        run: bundle install
+        working-directory: ./docs
 
-      - name: Build the project
-        run: npm run build
+      - name: Build Jekyll site
+        run: bundle exec jekyll build --source ./docs --destination ./docs/_site
+        working-directory: ./
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ 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 }}
-          publish_dir: hrms-sys/public
-          publish_branch: gh-pages
-          allow_empty_commit: false
-          keep_files: false
-          force_orphan: false
-          enable_jekyll: false
-          disable_nojekyll: false
-          exclude_assets: .github
+          publish_dir: ./docs/_site
 
       - name: Post telemetry data on failure
         if: failure()
         run: |
           gh api -X POST "repos/ezra-6987/hrms/pages/telemetry" \
-            -F github_run_id="${{9430366857}}" \
+            -F github_run_id="${{ 9430366857 }}" \
             -F conclusion="failure"
         env:
           GITHUB_TOKEN: ${{ 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 }}
