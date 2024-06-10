@@ -15,7 +15,7 @@ jobs:
 
       - name: Verify repository structure
         run: ls -la
-        working-directory: ./hrms-sys
+        working-directory: ./hrms
 
       - name: Verify docs directory structure
         run: ls -la
@@ -27,8 +27,8 @@ jobs:
           ruby-version: '2.7'
 
       - name: Install dependencies
-        run: bundle install
-        working-directory: ./hrms-sys/views
+        run: npm install
+        working-directory: ./hrms-sys/
 
       - name: Run app.js
         run: node app.js
@@ -47,7 +47,7 @@ jobs:
       - name: Post telemetry data on failure
         if: failure()
         run: |
-          gh api -X POST "repos/ezra-6987/hrms/hrms-sys/telemetry" \
+          gh api -X POST "repos/ezra-6987/hrms-sys/telemetry" \
             -F github_run_id="${{ 9430366857 }}" \
             -F conclusion="failure"
         env:
