@@ -27,13 +27,13 @@ jobs:
           destination: https://ezra-6987.github.io/hrms/
       - name: Check Content Size
         run: |
-          content_size=$(du -sh ./hrms-sys | cut -f1)
-          echo "Content size: $content_size"
-          if [[ $content_size > 10G ]]; then
-            echo "Error: Content size exceeds 10GB limit."
-            exit 1
+          content_size=$(du -sb ./hrms-sys | cut -f1)
+          echo "Content size: $content_size bytes"
+          if [ $content_size -gt $((10 * 1024 * 1024 * 1024)) ]; then
+          echo "Error: Content size exceeds 10GB limit."
+          exit 1
           else
-            echo "Content size within limit."
+          echo "Content size within limit."
           fi
       - name: Clean up artifacts
         run: |
