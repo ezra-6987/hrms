@@ -38,12 +38,26 @@ jobs:
             echo "Content size within limit."
           fi
 
+      - name: Log hard links and symlinks before cleanup
+        run: |
+          echo "Checking for hard links before cleanup:"
+          find ./hrms-sys/_site -type f -links +1
+          echo "Checking for symlinks before cleanup:"
+          find ./hrms-sys/_site -type l
+
       - name: Clean up artifacts
         run: |
-          echo "Checking for hard links:"
+          echo "Removing hard links:"
           find ./hrms-sys/_site -type f -links +1 -exec rm -v {} +
-          echo "Checking for symlinks:"
+          echo "Removing symlinks:"
           find ./hrms-sys/_site -type l -exec rm -v {} +
+
+      - name: Log hard links and symlinks after cleanup
+        run: |
+          echo "Checking for hard links after cleanup:"
+          find ./hrms-sys/_site -type f -links +1
+          echo "Checking for symlinks after cleanup:"
+          find ./hrms-sys/_site -type l
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -75,12 +89,26 @@ jobs:
             echo "Content size within limit."
           fi
 
+      - name: Log hard links and symlinks before cleanup
+        run: |
+          echo "Checking for hard links before cleanup:"
+          find ./hrms-sys/_site -type f -links +1
+          echo "Checking for symlinks before cleanup:"
+          find ./hrms-sys/_site -type l
+
       - name: Clean up artifacts
         run: |
-          echo "Checking for hard links:"
+          echo "Removing hard links:"
           find ./hrms-sys/_site -type f -links +1 -exec rm -v {} +
-          echo "Checking for symlinks:"
+          echo "Removing symlinks:"
           find ./hrms-sys/_site -type l -exec rm -v {} +
+
+      - name: Log hard links and symlinks after cleanup
+        run: |
+          echo "Checking for hard links after cleanup:"
+          find ./hrms-sys/_site -type f -links +1
+          echo "Checking for symlinks after cleanup:"
+          find ./hrms-sys/_site -type l
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
