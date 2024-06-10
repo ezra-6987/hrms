@@ -63,17 +63,17 @@ jobs:
           else
             echo "Content size within limit."
           fi
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: hrms-artifact
+          path: ./hrms-sys/_site
       - name: Clean up artifacts
         run: |
           # Remove hard links
           find ./hrms-sys/_site -type f -links +1 -exec rm {} +
           # Remove symlinks
           find ./hrms-sys/_site -type l -exec rm {} +
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: hrms-artifact
-          path: ./hrms-sys/_site
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
