@@ -48,7 +48,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           timeout: 600000
           error_count: 10
           reporting_interval: 5000
