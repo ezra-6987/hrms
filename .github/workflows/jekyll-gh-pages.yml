@@ -59,49 +59,50 @@ jobs:
           path: ./hrms-sys/_site
 
   deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+       runs-on: ubuntu-latest
+       needs: build
+       steps:
+       - name: Checkout
+         uses: actions/checkout@v2
 
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
+       - name: Download artifact
+         uses: actions/download-artifact@v4
+         with:
           name: hrms-artifact
           path: ./hrms-sys/_site
 
-      - name: Check Content Size
-        run: |
-          content_size=$(du -sb ./hrms-sys/_site | cut -f1)
-          echo "Content size: ${content_size} bytes"
-          if [ $content_size -gt $((10 * 1024 * 1024 * 1024)) ]; then
-            echo "Error: Content size exceeds 10GB limit."
-            exit 1
-          else
-            echo "Content size within limit."
-          fi
+       - name: Check Content Size
+         run: |
+           content_size=$(du -sb ./hrms-sys/_site | cut -f1)
+           echo "Content size: ${content_size} bytes"
+           if [ $content_size -gt $((10 * 1024 * 1024 * 1024)) ]; then
+           echo "Error: Content size exceeds 10GB limit."
+           exit 1
+           else
+           echo "Content size within limit."
+           fi
 
-      - name: Log hard links and symlinks before cleanup
-        run: |
+       - name: Log hard links and symlinks before cleanup
+         run: |
           echo "Checking for hard links before cleanup:"
           find ./hrms-sys/_site -type f -links +1
           echo "Checking for symlinks before cleanup:"
           find ./hrms-sys/_site -type l
-
-      - name: Clean up artifacts
-        run: |
+ 
+       - name: Clean up artifacts
+         run: |
           echo "Removing hard links:"
           find ./hrms-sys/_site -type f -links +1 -exec rm -v {} +
           echo "Removing symlinks:"
           find ./hrms-sys/_site -type l -exec rm -v {} +
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-        with:
+       - name: Deploy to GitHub Pages
+         uses: actions/deploy-pages@v4
+         with:
           token: ${{ secrets.GH_TOKEN }}
           timeout: 600000
           error_count: 10
           reporting_interval: 5000
           artifact_name: hrms-artifact
           preview: false
+
