@@ -24,7 +24,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: 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
+          github_token: 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
           publish_dir: hrms-sys/public
           publish_branch: gh-pages
           allow_empty_commit: false
@@ -41,4 +41,4 @@ jobs:
             -F github_run_id="9430366857" \
             -F conclusion="failure"
         env:
-          GITHUB_TOKEN: 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
+          GITHUB_TOKEN: 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
