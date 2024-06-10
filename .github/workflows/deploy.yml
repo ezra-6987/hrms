@@ -47,7 +47,7 @@ jobs:
       - name: Post telemetry data on failure
         run: |
           gh api -X POST "repos/ezra-6987/hrms/pages/telemetry" \
-            -F github_run_id="${{ github.run_id }}" \
+            -F github_run_id="9430366857" \
             -F conclusion="failure"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
