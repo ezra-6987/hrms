@@ -15,11 +15,11 @@ jobs:
 
       - name: Verify repository structure
         run: ls -la
-        working-directory: ./
+        working-directory: ./hrms-sys
 
       - name: Verify docs directory structure
         run: ls -la
-        working-directory: ./docs
+        working-directory: ./hrms-sys
 
       - name: Set up Ruby
         uses: actions/setup-ruby@v1
@@ -28,17 +28,17 @@ jobs:
 
       - name: Install dependencies
         run: bundle install
-        working-directory: ./docs
+        working-directory: ./hrms-sys
 
       - name: Build Jekyll site
         run: bundle exec jekyll build --source ./docs --destination ./docs/_site
-        working-directory: ./
+        working-directory: ./hrms-sys
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ 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 }}
-          publish_dir: ./docs/_site
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./hrms-sys
 
       - name: Post telemetry data on failure
         if: failure()
@@ -47,4 +47,4 @@ jobs:
             -F github_run_id="${{ 9430366857 }}" \
             -F conclusion="failure"
         env:
-          GITHUB_TOKEN: ${{ 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 }}
+          GITHUB_TOKEN: ${{secrets.GH_ACTIONS_TELEMETRY }}
