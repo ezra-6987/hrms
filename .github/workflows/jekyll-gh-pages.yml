@@ -64,7 +64,6 @@ jobs:
       name: github-pages
       url: ${{ steps.build.outputs.artifacts_url }}
     runs-on: ubuntu-latest
-    needs: re-upload
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -83,6 +82,12 @@ jobs:
           else
             echo "Content size within limit."
           fi
+      - name: Clean up artifacts
+        run: |
+         # Remove hard links
+         find ./hrms-sys -type f -links +1 -exec rm {} +
+         # Remove symlinks
+         find ./hrms-sys -type l -exec rm {} +
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
