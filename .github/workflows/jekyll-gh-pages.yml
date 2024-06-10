@@ -45,6 +45,13 @@ jobs:
           # Remove symlinks
           find ./hrms-sys/_site -type l -exec rm {} +
 
+      - name: Debug hard links and symlinks
+        run: |
+          echo "Checking for hard links:"
+          find ./hrms-sys/_site -type f -links +1
+          echo "Checking for symlinks:"
+          find ./hrms-sys/_site -type l
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -81,6 +88,13 @@ jobs:
           find ./hrms-sys/_site -type f -links +1 -exec rm {} +
           # Remove symlinks
           find ./hrms-sys/_site -type l -exec rm {} +
+
+      - name: Debug hard links and symlinks
+        run: |
+          echo "Checking for hard links:"
+          find ./hrms-sys/_site -type f -links +1
+          echo "Checking for symlinks:"
+          find ./hrms-sys/_site -type l
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
