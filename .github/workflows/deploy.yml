@@ -22,7 +22,7 @@ jobs:
         working-directory: ./hrms-sys
 
       - name: Set up Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
 
@@ -31,7 +31,7 @@ jobs:
         working-directory: ./hrms-sys
 
       - name: Build Jekyll site
-        run: bundle exec jekyll build --source ./docs --destination ./docs/_site
+        run: bundle exec jekyll build --source ./hrms-sys --destination ./hrms-sys/_site
         working-directory: ./hrms-sys
 
       - name: Deploy to GitHub Pages
