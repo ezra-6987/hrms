@@ -68,12 +68,6 @@ jobs:
         with:
           name: hrms-artifact
           path: ./hrms-sys/_site
-      - name: Clean up artifacts
-        run: |
-          # Remove hard links
-          find ./hrms-sys/_site -type f -links +1 -exec rm {} +
-          # Remove symlinks
-          find ./hrms-sys/_site -type l -exec rm {} +
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
@@ -83,3 +77,9 @@ jobs:
           reporting_interval: 5000
           artifact_name: hrms-artifact
           preview: false
+      - name: Clean up artifacts
+        run: |
+          # Remove hard links
+          find ./hrms-sys/_site -type f -links +1 -exec rm {} +
+          # Remove symlinks
+          find ./hrms-sys/_site -type l -exec rm {} +
