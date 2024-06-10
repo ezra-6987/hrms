@@ -20,8 +20,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
@@ -50,7 +48,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
           cleanup: false  # Keep generated files from the build
           target_branch: ./hrms-sys  # Specify the branch for GitHub Pages
           publish_dir: ./_site
