@@ -28,7 +28,7 @@ jobs:
       - name: Check Content Size
         run: |
           content_size=$(du -sb ./hrms-sys/_site | cut -f1)
-          echo "Content size: $content_size bytes"
+          echo "Content size: $(content_size bytes)"
           if [ $content_size -gt $((10 * 1024 * 1024 * 1024)) ]; then
             echo "Error: Content size exceeds 10GB limit."
             exit 1
@@ -56,7 +56,7 @@ jobs:
       - name: Check Content Size
         run: |
          content_size=$(du -sb ./hrms-sys/_site | cut -f1)
-         echo "Content size: $content_size bytes"
+         echo "Content size: $(content_size bytes)"
          if [ $content_size -gt $((10 * 1024 * 1024 * 1024)) ]; then
            echo "Error: Content size exceeds 10GB limit."
             exit 1
@@ -68,6 +68,12 @@ jobs:
         with:
           name: hrms-artifact
           path: ./hrms-sys/_site
+      - name: Clean up artifacts
+          run: |
+           # Remove hard links
+           find ./hrms-sys/_site -type f -links +1 -exec rm {} +
+           # Remove symlinks
+           find ./hrms-sys/_site -type l -exec rm {} +    
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
@@ -77,9 +83,4 @@ jobs:
           reporting_interval: 5000
           artifact_name: hrms-artifact
           preview: false
-      - name: Clean up artifacts
-        run: |
-          # Remove hard links
-          find ./hrms-sys/_site -type f -links +1 -exec rm {} +
-          # Remove symlinks
-          find ./hrms-sys/_site -type l -exec rm {} +
+  
