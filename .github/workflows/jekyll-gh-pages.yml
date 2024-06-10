@@ -46,10 +46,12 @@ jobs:
           name: hrms-artifact
           path: ./hrms-sys/_site
           run-id: 9430366857
+          merge-multiple: false
+          repository: ezra-6987/hrms
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           cleanup: false  # Keep generated files from the build
-          target_branch: ./hrms-sys  # Specify the branch for GitHub Pages
-          publish_dir: ./_site
+          target_branch: gh-pages  # Specify the branch for GitHub Pages
+          publish_dir: ./hrms-sys/_site
